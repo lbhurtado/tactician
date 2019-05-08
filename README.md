@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/lbhurtado/tactician.svg?style=flat-square)](https://scrutinizer-ci.com/g/lbhurtado/tactician)
 [![Total Downloads](https://img.shields.io/packagist/dt/lbhurtado/tactician.svg?style=flat-square)](https://packagist.org/packages/lbhurtado/tactician)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This is just an extension of joselfonseca/laravel-tactician package implementing the ActionAbstract class.
 
 ## Installation
 
@@ -18,7 +18,97 @@ composer require lbhurtado/tactician
 ## Usage
 
 ``` php
-// Usage description here
+use LBHurtado\Tactician\Classes\ActionAbstract;
+use LBHurtado\Tactician\Contracts\ActionInterface;
+
+class CreateSMSAction extends ActionAbstract implements ActionInterface
+{
+    protected $fields = ['from', 'to', 'message'];
+
+    protected $command = CreateSMSCommand::class;
+
+    protected $handler = CreateSMSHandler::class;
+
+    protected $middlewares = [
+        CreateSMSValidator::class,
+        CreateSMSResponder::class,
+    ];
+
+    public function setup()
+    {
+        // TODO: Implement setup() method.
+    }
+}
+```
+
+``` php
+use LBHurtado\Tactician\Contracts\CommandInterface;
+
+class CreateSMSCommand implements CommandInterface
+{
+    public $from;
+
+    public $to;
+
+    public $message;
+
+    public function __construct($from, $to, $message)
+    {
+        $this->from = $from;
+        $this->to = $to;
+        $this->message = $message;
+    }
+
+    public function getProperties():array
+    {
+        return [
+            'from' => $this->from,
+            'to' => $this->to,
+            'message' => $this->message,
+        ];
+    }
+}
+```
+
+``` php
+use LBHurtado\Tactician\Contracts\CommandInterface;
+use LBHurtado\Tactician\Contracts\HandlerInterface;
+
+class CreateSMSHandler implements HandlerInterface
+{
+    protected $smss;
+
+    public function __construct(SMSRepository $smss)
+    {
+        $this->smss = $smss;
+    }
+
+    public function handle(CommandInterface $command)
+    {
+        $this->smss->create([
+            'from' => $command->from,
+            'to' => $command->to,
+            'message' => $command->message,
+        ]);
+    }
+}
+```
+
+``` php
+use League\Tactician\Middleware;
+
+class CreateSMSResponder implements Middleware
+{
+    public function execute($command, callable $next)
+    {
+        $next($command);
+
+        return (new CreateSMSResource($command))
+            ->response()
+            ->setStatusCode(200)
+            ;
+    }
+}
 ```
 
 ### Testing

@@ -31,8 +31,6 @@ abstract class ActionAbstract implements ActionInterface
         $this->bus = $bus;
         $this->request = $request;
         $this->dispatcher = $dispatcher;
-
-        \Log::info($request);
     }
 
     public function __invoke()
