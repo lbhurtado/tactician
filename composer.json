@@ -1,0 +1,56 @@
+{
+    "name": "lbhurtado/tactician",
+    "description": "Extending joselfonseca/laravel-tactician",
+    "keywords": [
+        "lbhurtado",
+        "tactician"
+    ],
+    "homepage": "https://github.com/lbhurtado/tactician",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Lester Hurtado",
+            "email": "lester@hurtado.ph",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "5.8.*",
+        "joselfonseca/laravel-tactician": "^0.5.0",
+        "opis/events": "^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LBHurtado\\Tactician\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LBHurtado\\Tactician\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LBHurtado\\Tactician\\TacticianServiceProvider"
+            ],
+            "aliases": {
+                "Tactician": "LBHurtado\\Tactician\\TacticianFacade"
+            }
+        }
+    }
+}
