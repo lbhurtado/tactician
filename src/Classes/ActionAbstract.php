@@ -16,8 +16,6 @@ abstract class ActionAbstract implements ActionInterface
 
     protected $request;
 
-    protected $fields;
-
     protected $command;
 
     protected $handler;
@@ -35,7 +33,8 @@ abstract class ActionAbstract implements ActionInterface
 
     public function __invoke()
     {
-        $this->setup();
+        if (method_exists($this, 'setup'))
+            $this->setup();
 
         $this->getBus()->addHandler(
             $this->getCommand(),
@@ -71,7 +70,7 @@ abstract class ActionAbstract implements ActionInterface
 
     public function getData():array
     {
-        return $this->request->only($this->fields);
+        return $this->request->only($this->getFields());
     }
 
     public function getDispatcher()
@@ -79,5 +78,8 @@ abstract class ActionAbstract implements ActionInterface
         return $this->dispatcher;
     }
 
-    abstract public function setup();
+    public function getFields():array
+    {
+        return config('tactician.fields', []);
+    }
 }
