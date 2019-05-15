@@ -2,6 +2,7 @@
 
 namespace LBHurtado\Tactician\Classes;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Opis\Events\EventDispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -80,6 +81,6 @@ abstract class ActionAbstract implements ActionInterface
 
     public function getFields():array
     {
-        return config('tactician.fields', []);
+        return array_keys(config('tactician.fields', []));
     }
 }
