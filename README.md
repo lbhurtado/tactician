@@ -1,4 +1,4 @@
-# Very short description of the package
+# lbhurtado/tactician
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lbhurtado/tactician.svg?style=flat-square)](https://packagist.org/packages/lbhurtado/tactician)
 [![Build Status](https://img.shields.io/travis/lbhurtado/tactician/master.svg?style=flat-square)](https://travis-ci.org/lbhurtado/tactician)
