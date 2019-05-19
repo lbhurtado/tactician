@@ -2,7 +2,6 @@
 
 namespace LBHurtado\Tactician\Classes;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Opis\Events\EventDispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -13,16 +12,22 @@ abstract class ActionAbstract implements ActionInterface
 {
     use DispatchesJobs;
 
+    /** @var CommandBusInterface  */
     protected $bus;
 
+    /** @var Request  */
     protected $request;
 
+    /** @var string */
     protected $command;
 
+    /** @var string */
     protected $handler;
 
+    /** @var array */
     protected $middlewares;
 
+    /** @var EventDispatcher  */
     protected $dispatcher;
 
     public function __construct(CommandBusInterface $bus, EventDispatcher $dispatcher, Request $request)
@@ -49,17 +54,17 @@ abstract class ActionAbstract implements ActionInterface
         );
     }
 
-    public function getBus():CommandBusInterface
+    public function getBus(): CommandBusInterface
     {
         return $this->bus;
     }
 
-    public function getCommand():string
+    public function getCommand(): string
     {
         return $this->command;
     }
 
-    public function getHandler():string
+    public function getHandler(): string
     {
         return $this->handler;
     }
@@ -74,12 +79,12 @@ abstract class ActionAbstract implements ActionInterface
         return $this->request->only($this->getFields());
     }
 
-    public function getDispatcher()
+    public function getDispatcher(): EventDispatcher
     {
         return $this->dispatcher;
     }
 
-    public function getFields():array
+    public function getFields(): array
     {
         return array_keys(config('tactician.fields', []));
     }
