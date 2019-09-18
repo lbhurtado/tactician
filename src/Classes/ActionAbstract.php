@@ -30,6 +30,9 @@ abstract class ActionAbstract implements ActionInterface
     /** @var EventDispatcher  */
     protected $dispatcher;
 
+    /** @var array */
+    protected $arguments;
+
     public function __construct(CommandBusInterface $bus, EventDispatcher $dispatcher, Request $request)
     {
         $this->bus = $bus;
@@ -37,8 +40,10 @@ abstract class ActionAbstract implements ActionInterface
         $this->dispatcher = $dispatcher;
     }
 
-    public function __invoke()
+    public function __invoke(...$arguments)
     {
+        $this->arguments = $arguments;
+
         if (method_exists($this, 'setup'))
             $this->setup();
 
