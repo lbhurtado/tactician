@@ -52,11 +52,7 @@ abstract class ActionAbstract implements ActionInterface
             $this->getHandler()
         );
 
-        return $this->getBus()->dispatch(
-            $this->getCommand(),
-            $this->getData(),
-            $this->getMiddlewares()
-        );
+        return $this->dispatch();
     }
 
     public function getBus(): CommandBusInterface
@@ -92,5 +88,17 @@ abstract class ActionAbstract implements ActionInterface
     public function getFields(): array
     {
         return array_keys(config('tactician.fields', []));
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function dispatch(): mixed
+    {
+        return $this->getBus()->dispatch(
+            $this->getCommand(),
+            $this->getData(),
+            $this->getMiddlewares()
+        );
     }
 }
