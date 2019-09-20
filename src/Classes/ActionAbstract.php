@@ -49,7 +49,7 @@ abstract class ActionAbstract implements ActionInterface
 
         $this->addHandlers();
 
-        return $this->dispatch();
+        return $this->dispatchHandlers();
     }
 
     public function getBus(): CommandBusInterface
@@ -87,7 +87,7 @@ abstract class ActionAbstract implements ActionInterface
         return array_keys(config('tactician.fields', []));
     }
 
-    protected function dispatch()
+    public function dispatchHandlers()
     {
         return $this->getBus()->dispatch(
             $this->getCommand(),
@@ -96,7 +96,7 @@ abstract class ActionAbstract implements ActionInterface
         );
     }
 
-    protected function addHandlers()
+    public function addHandlers()
     {
         $this->getBus()->addHandler(
             $this->getCommand(),
