@@ -47,10 +47,7 @@ abstract class ActionAbstract implements ActionInterface
         if (method_exists($this, 'setup'))
             $this->setup();
 
-        $this->getBus()->addHandler(
-            $this->getCommand(),
-            $this->getHandler()
-        );
+        $this->addHandlers();
 
         return $this->dispatch();
     }
@@ -90,15 +87,20 @@ abstract class ActionAbstract implements ActionInterface
         return array_keys(config('tactician.fields', []));
     }
 
-    /**
-     * @return mixed
-     */
-    protected function dispatch(): mixed
+    protected function dispatch()
     {
         return $this->getBus()->dispatch(
             $this->getCommand(),
             $this->getData(),
             $this->getMiddlewares()
+        );
+    }
+
+    protected function addHandlers()
+    {
+        $this->getBus()->addHandler(
+            $this->getCommand(),
+            $this->getHandler()
         );
     }
 }
